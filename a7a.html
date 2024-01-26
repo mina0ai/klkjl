@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #form-container {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 20px auto;
+        }
+
+        .form-element {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            cursor: move;
+        }
+    </style>
+</head>
+<body>
+
+<div id="form-container">
+    <div class="form-element" draggable="true" ondragstart="drag(event)">Text Input</div>
+    <div class="form-element" draggable="true" ondragstart="drag(event)">Checkbox</div>
+    <div class="form-element" draggable="true" ondragstart="drag(event)">Radio Button</div>
+</div>
+
+<div id="drop-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+    Drop your form elements here
+</div>
+
+<script>
+    function allowDrop(event) {
+        event.preventDefault();
+    }
+
+    function drag(event) {
+        event.dataTransfer.setData("text", event.target.innerText);
+    }
+
+    function drop(event) {
+        event.preventDefault();
+        var data = event.dataTransfer.getData("text");
+        var dropContainer = document.getElementById("drop-container");
+
+        // Create a new element based on the dragged data
+        var newElement = document.createElement("div");
+        newElement.className = "form-element";
+        newElement.innerText = data;
+        newElement.draggable = true;
+        newElement.ondragstart = function (e) { drag(e); };
+
+        // Append the new element to the drop container
+        dropContainer.appendChild(newElement);
+    }
+</script>
+
+</body>
+</html>
